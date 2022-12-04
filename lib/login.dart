@@ -1,3 +1,5 @@
+import 'package:dairy/admin_dashboard.dart';
+import 'package:dairy/farmer_dashboard.dart';
 import 'package:dairy/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -182,7 +184,19 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 50,
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
+                await logIn();
+                if (_value == 1) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AdminDashboard()));
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FarmerDashboard()));
+                }
               },
               child: Center(
                 child: Container(
@@ -197,10 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       await logIn();
                       if (_value == 0) {
                       } else if (_value == 1) {
-
-                      } else {
-
-                      }
+                      } else {}
                     },
                     child: Text(
                       'Login',
@@ -224,7 +235,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 InkWell(
                     onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>RegistrationScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegistrationScreen()));
                     },
                     child: const Text(
                       ' Register',
