@@ -1,7 +1,7 @@
 // register
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dairy/admin_dashboard.dart';
-import 'package:dairy/farmer_dashboard.dart';
+import 'package:dairy/Farmer/farmer_dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -33,40 +33,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         email: email.text.trim(),
         password: password.text.trim(),
       );
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future createUser() async {
-    try {
-      final docUser = FirebaseFirestore.instance
-          .collection('importers')
-          .doc(email.text.trim());
-      final json = {
-        'email': email.text.trim(),
-        'name': name.text.trim(),
-        'location': locationc.text.trim(),
-      };
-
-      await docUser.set(json);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future createExporterUser() async {
-    try {
-      final docUser = FirebaseFirestore.instance
-          .collection('exporters')
-          .doc(email.text.trim());
-      final json = {
-        'email': email.text.trim(),
-        'name': name.text.trim(),
-        'location': locationc.text.trim(),
-      };
-
-      await docUser.set(json);
     } catch (e) {
       print(e);
     }
@@ -291,7 +257,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             GestureDetector(
               onTap: () async {
                 await signUp();
-                await createUser();
                 if (_value == 1) {
                   Navigator.push(
                       context,
