@@ -1,3 +1,4 @@
+import 'package:dairy/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   var _value;
 
-  TextEditingController phone = TextEditingController();
+  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   Future logIn() async {
@@ -25,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: phone.text.trim(),
+        email: email.text.trim(),
         password: password.text.trim(),
       );
     } catch (e) {
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.only(left: 25, right: 25),
               height: 35,
               child: TextField(
-                controller: phone,
+                controller: email,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(22.0),
@@ -78,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fillColor: Colors.white,
                   filled: true,
                   contentPadding: const EdgeInsets.only(top: 5, left: 35),
-                  hintText: 'Enter the Phone Number',
+                  hintText: 'Enter the Email',
                   hintStyle: TextStyle(color: Colors.grey[700]),
                 ),
               ),
@@ -223,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 InkWell(
                     onTap: () {
-
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>RegistrationScreen()));
                     },
                     child: const Text(
                       ' Register',
