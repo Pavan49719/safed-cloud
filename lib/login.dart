@@ -12,7 +12,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   var _value;
 
-  TextEditingController email = TextEditingController();
+  TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
 
   Future logIn() async {
@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email.text.trim(),
+        email: phone.text.trim(),
         password: password.text.trim(),
       );
     } catch (e) {
@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.only(left: 25, right: 25),
               height: 35,
               child: TextField(
-                controller: email,
+                controller: phone,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(22.0),
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fillColor: Colors.white,
                   filled: true,
                   contentPadding: const EdgeInsets.only(top: 5, left: 35),
-                  hintText: 'Enter the Email',
+                  hintText: 'Enter the Phone Number',
                   hintStyle: TextStyle(color: Colors.grey[700]),
                 ),
               ),
@@ -115,49 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 20,
                   )),
             ),
-            // Container(
-            //   padding: const EdgeInsets.all(15),
-            //   margin:
-            //       const EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
-            //   height: 75,
-            //   decoration: BoxDecoration(
-            //       border: Border.all(color: Colors.grey.shade400),
-            //       borderRadius: BorderRadius.circular(8)),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Column(
-            //         children: const [
-            //           Text('Farmer',
-            //               style: TextStyle(
-            //                 color: Colors.black,
-            //                 fontSize: 20,
-            //               )),
-            //           Text('Milk Farmer',
-            //               style: TextStyle(
-            //                 color: Colors.black,
-            //                 fontSize: 10,
-            //               )),
-            //         ],
-            //       ),
-            //       // SizedBox(
-            //       //   width: MediaQuery.of(context).size.width * 0.42,
-            //       // ),
-            //       Radio(
-            //         toggleable: true,
-            //         value: 0,
-            //         groupValue: _value,
-            //         onChanged: (value) {
-            //           setState(() {
-            //             _value = value;
-            //           });
-            //         },
-            //         fillColor: MaterialStateColor.resolveWith(
-            //             (states) => const Color(0xFF20BCDE)),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Container(
               padding: const EdgeInsets.all(15),
               margin:
@@ -169,20 +126,11 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: const [
-                      Text('Exporter',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          )),
-                      Text('Dairy Exporter',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 10,
-                          )),
-                    ],
-                  ),
+                  const Text('Dairy Admin',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      )),
                   Radio(
                     toggleable: true,
                     value: 1,
@@ -209,20 +157,11 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: const [
-                      Text('Importer',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          )),
-                      Text('Dairy Importer',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 10,
-                          )),
-                    ],
-                  ),
+                  const Text('Farmer',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      )),
                   Radio(
                     toggleable: true,
                     value: 2,
