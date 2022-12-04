@@ -1,5 +1,5 @@
 import 'package:dairy/admin_dashboard.dart';
-import 'package:dairy/farmer_dashboard.dart';
+import 'package:dairy/Farmer/farmer_dashboard.dart';
 import 'package:dairy/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -206,18 +206,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: const Color(0xFF20BCDE),
                       borderRadius: BorderRadius.circular(10)),
                   child: Center(
-                      child: GestureDetector(
-                    onTap: () async {
-                      await logIn();
-                      if (_value == 0) {
-                      } else if (_value == 1) {
-                      } else {}
-                    },
-                    child: Text(
-                      'Login',
-                      style: TextStyle(color: Colors.white, fontSize: 28),
-                    ),
-                  )),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(color: Colors.white, fontSize: 28),
+                      ),
+                  ),
                 ),
               ),
             ),
