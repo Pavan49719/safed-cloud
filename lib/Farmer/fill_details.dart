@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FillDetails extends StatefulWidget {
@@ -8,6 +10,7 @@ class FillDetails extends StatefulWidget {
 }
 
 class _FillDetailsState extends State<FillDetails> {
+  final User? user = FirebaseAuth.instance.currentUser;
 
   TextEditingController name = TextEditingController();
   TextEditingController age = TextEditingController();
@@ -15,6 +18,21 @@ class _FillDetailsState extends State<FillDetails> {
   TextEditingController aadhar = TextEditingController();
   TextEditingController Acno = TextEditingController();
   TextEditingController ifsc = TextEditingController();
+
+  Future addFarmerInfo() async {
+    final docUser =
+        FirebaseFirestore.instance.collection('farmers').doc(user?.email);
+
+    final json = {
+      'name': name.text,
+      'age': age.text,
+      'location': location.text,
+      'aadhar': aadhar.text,
+      'acc-no': Acno.text,
+      'ifsc-code': ifsc.text,
+    };
+    await docUser.set(json, SetOptions(merge: true));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +72,9 @@ class _FillDetailsState extends State<FillDetails> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               padding: const EdgeInsets.only(left: 25, right: 25),
               height: 35,
@@ -86,7 +106,9 @@ class _FillDetailsState extends State<FillDetails> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               padding: const EdgeInsets.only(left: 25, right: 25),
               height: 35,
@@ -118,7 +140,9 @@ class _FillDetailsState extends State<FillDetails> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               padding: const EdgeInsets.only(left: 25, right: 25),
               height: 35,
@@ -150,7 +174,9 @@ class _FillDetailsState extends State<FillDetails> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               padding: const EdgeInsets.only(left: 25, right: 25),
               height: 35,
@@ -182,7 +208,9 @@ class _FillDetailsState extends State<FillDetails> {
                 ),
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               padding: const EdgeInsets.only(left: 25, right: 25),
               height: 35,
@@ -214,15 +242,16 @@ class _FillDetailsState extends State<FillDetails> {
                 ),
               ),
             ),
-            SizedBox(height: 40,),
+            SizedBox(
+              height: 40,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                    },
+                    onTap: () {},
                     child: Center(
                       child: Container(
                         width: 100,
@@ -239,9 +268,12 @@ class _FillDetailsState extends State<FillDetails> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      await addFarmerInfo();
                     },
                     child: Center(
                       child: Container(
@@ -259,9 +291,12 @@ class _FillDetailsState extends State<FillDetails> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      await addFarmerInfo();
                     },
                     child: Center(
                       child: Container(

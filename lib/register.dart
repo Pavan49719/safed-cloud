@@ -19,7 +19,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController locationc = TextEditingController();
 
   Future signUp() async {
     showDialog(
@@ -33,6 +32,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         email: email.text.trim(),
         password: password.text.trim(),
       );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future createFarmerUser() async {
+    try {
+      final docUser = FirebaseFirestore.instance
+          .collection('farmers')
+          .doc(email.text.trim());
+      final json = {
+        'email': email.text.trim(),
+        'name': name.text.trim(),
+      };
+
+      await docUser.set(json);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future createAdminUser() async {
+    try {
+      final docUser =
+          FirebaseFirestore.instance.collection('admin').doc(email.text.trim());
+      final json = {
+        'email': email.text.trim(),
+        'name': name.text.trim(),
+      };
+
+      await docUser.set(json);
     } catch (e) {
       print(e);
     }
@@ -258,11 +288,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               onTap: () async {
                 await signUp();
                 if (_value == 1) {
+                  await createAdminUser();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => AdminDashboard()));
                 } else {
+                  await createFarmerUser();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
