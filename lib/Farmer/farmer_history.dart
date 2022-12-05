@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
-import 'package:intl/intl.dart';
 
 class FarmerHistory extends StatefulWidget {
   const FarmerHistory({Key? key}) : super(key: key);
