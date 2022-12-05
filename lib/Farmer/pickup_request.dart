@@ -146,7 +146,6 @@ class _FarmerPickupState extends State<FarmerPickup> {
             ),
             SizedBox(height: 20,),
             Row(
-
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -180,6 +179,26 @@ class _FarmerPickupState extends State<FarmerPickup> {
                   },
                 ),
               ],
+            ),
+            SizedBox(height: 50,),
+            GestureDetector(
+              onTap: () {
+              },
+              child: Center(
+                child: Container(
+                  width: 200,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      color: const Color(0xFF20BCDE),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Text(
+                      'Send Request',
+                      style: TextStyle(color: Colors.white, fontSize: 28),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ));
