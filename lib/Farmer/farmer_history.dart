@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/components/avatar/gf_avatar.dart';
 import 'package:getwidget/components/list_tile/gf_list_tile.dart';
 
-class MilkCollection extends StatefulWidget {
-  const MilkCollection({Key? key}) : super(key: key);
+class FarmerHistory extends StatefulWidget {
+  const FarmerHistory({Key? key}) : super(key: key);
 
   @override
-  State<MilkCollection> createState() => _MilkCollectionState();
+  State<FarmerHistory> createState() => _FarmerHistoryState();
 }
 
-class _MilkCollectionState extends State<MilkCollection> {
+class _FarmerHistoryState extends State<FarmerHistory> {
+  TextEditingController dateController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return eventTab();
+    return Scaffold(
+      appBar: AppBar(),
+      body: eventTab()
+    );
   }
 }
 
