@@ -1,5 +1,6 @@
 import 'package:dairy/Farmer/farmer_profile.dart';
 import 'package:dairy/Farmer/fill_details.dart';
+import 'package:dairy/Farmer/pickup_request.dart';
 import 'package:flutter/material.dart';
 
 class FarmerDashboard extends StatefulWidget {
@@ -28,7 +29,9 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>FillDetails()));
               }, child: Text('Fill Details')),
               SizedBox(height: 10,),
-              ElevatedButton(onPressed: () {}, child: Text('Pickup Request')),
+              ElevatedButton(onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>FarmerPickup()));
+              }, child: Text('Pickup Request')),
               SizedBox(height: 10,),
               ElevatedButton(onPressed: () {}, child: Text('Milk Rate')),
               SizedBox(height: 10,),
