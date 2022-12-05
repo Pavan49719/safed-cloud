@@ -4,6 +4,8 @@ import 'package:dairy/Farmer/fill_details.dart';
 import 'package:dairy/Farmer/pickup_request.dart';
 import 'package:flutter/material.dart';
 
+import 'farmer_history.dart';
+
 class FarmerDashboard extends StatefulWidget {
   const FarmerDashboard({Key? key}) : super(key: key);
 
@@ -38,9 +40,13 @@ class _FarmerDashboardState extends State<FarmerDashboard> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>FarmerMilkRate()));
               }, child: Text('Milk Rate')),
               SizedBox(height: 10,),
-              ElevatedButton(onPressed: () {}, child: Text('My Wallet')),
+              ElevatedButton(onPressed: () {
+
+              }, child: Text('My Wallet')),
               SizedBox(height: 10,),
-              ElevatedButton(onPressed: () {}, child: Text('My Daily Collection')),
+              ElevatedButton(onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>FarmerHistory()));
+              }, child: Text('My Daily Collection')),
               SizedBox(height: 10,),
               ElevatedButton(onPressed: () {}, child: Text('Instruction')),
               SizedBox(height: 10,),

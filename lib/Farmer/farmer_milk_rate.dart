@@ -35,7 +35,6 @@ class _FarmerMilkRateState extends State<FarmerMilkRate> {
               ),
               SizedBox(width: 30,),
               DropdownButton(
-
                 // Initial Value
                 value: dropdownvalue,
 
