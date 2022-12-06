@@ -50,6 +50,13 @@ class _OrdersState extends State<Orders> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Milk orders'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await readData();
+              },
+              icon: Icon(Icons.refresh))
+        ],
       ),
       body: ListView.builder(
           itemCount: Count,
@@ -76,9 +83,20 @@ class _OrdersState extends State<Orders> {
                       'Location: ${documents?[index]['location']}',
                     ),
                   ),
-                  icon: Column(
+                  icon: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      documents?[index]['status'] == 'Pending'
+                          ? Icon(Icons.pending_actions,color: Colors.yellow[800],)
+                          : documents?[index]['status'] == 'Accepted'
+                              ? Icon(
+                                  Icons.done,
+                                  color: Colors.green,
+                                )
+                              : Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
                       IconButton(
                         icon: const Icon(
                           Icons.announcement,
