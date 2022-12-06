@@ -45,6 +45,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       final json = {
         'email': email.text.trim(),
         'name': name.text.trim(),
+        'aadhar':'',
+        'acc-no':'',
+        'age':'',
+        'ifsc-code':'',
+        'location':'',
       };
 
       await docUser.set(json);
@@ -60,11 +65,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       final json = {
         'email': email.text.trim(),
         'name': name.text.trim(),
-        'aadhar':'',
-        'acc-no':'',
-        'age':'',
-        'ifsc-code':'',
-        'location':'',
       };
 
       await docUser.set(json);
