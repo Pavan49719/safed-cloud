@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dairy/Farmer/reqstatus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,13 +12,46 @@ class FarmerPickup extends StatefulWidget {
 }
 
 class _FarmerPickupState extends State<FarmerPickup> {
-  var _value;
+  var _sValue;
+  var _pValue;
+  var _mValue;
   String dropdownvalue = 'Katraj Dairy';
-  var items = [
-    'Katraj Dairy',
-    'AMUL Dairy'
-  ];
+  var fname;
+  var femail;
+  var flocation;
+  String? sdate;
+  var items = ['Katraj Dairy', 'AMUL Dairy'];
   TextEditingController dateController = TextEditingController();
+  final User? user = FirebaseAuth.instance.currentUser;
+
+  Future addRequest() async {
+    final docUser = FirebaseFirestore.instance
+        .collection('pickup-request')
+        .doc(user?.email);
+
+    var collection = FirebaseFirestore.instance.collection('farmers');
+    var docSnapshot = await collection.doc(user?.email).get();
+    if (docSnapshot.exists) {
+      Map<String, dynamic>? data = docSnapshot.data();
+      setState(() {
+        fname = data?['name'];
+        femail = data?['email'];
+        flocation = data?['location'];
+      });
+
+      final json = {
+        'name': fname,
+        'email': femail,
+        'location': flocation,
+        'date': sdate,
+        'shift': _sValue == 1 ? 'Morning' : 'Evening',
+        'payment-mode': _pValue == 1 ? 'Online' : 'Offline',
+        'mode': _mValue == 1 ? 'Weekly' : 'Biweekly',
+        'status': 'Pending',
+      };
+      await docUser.set(json, SetOptions(merge: true));
+    }
+  }
 
   @override
   void initState() {
@@ -26,7 +62,17 @@ class _FarmerPickupState extends State<FarmerPickup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Pickup Request")),
+        appBar: AppBar(
+          title: const Text("Pickup Request"),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.history),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CheckStatus()));
+                })
+          ],
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +107,8 @@ class _FarmerPickupState extends State<FarmerPickup> {
                       //You can format date as per your need
 
                       setState(() {
-                        dateController.text =
+                        dateController.text = formattedDate;
+                        sdate =
                             formattedDate; //set foratted date to TextField value.
                       });
                     } else {
@@ -72,79 +119,237 @@ class _FarmerPickupState extends State<FarmerPickup> {
             SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: Text(
-                'Shift',
-                style: TextStyle(color: Colors.black, fontSize: 24),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Text(
+                    'Shift:',
+                    style: TextStyle(color: Colors.black, fontSize: 24),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  // margin: const EdgeInsets.only(
+                  //     top: 5, left: 5, right: 5, bottom: 5),
+                  // height: 75,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Morning',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          )),
+                      Radio(
+                        toggleable: true,
+                        value: 1,
+                        groupValue: _sValue,
+                        onChanged: (value) {
+                          setState(() {
+                            _sValue = value;
+                          });
+                        },
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => const Color(0xFF20BCDE)),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  // margin: const EdgeInsets.only(
+                  //     top: 5, left: 55, right: 5, bottom: 5),
+                  // height: 75,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Evening',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          )),
+                      Radio(
+                        toggleable: true,
+                        value: 2,
+                        groupValue: _sValue,
+                        onChanged: (value) {
+                          setState(() {
+                            _sValue = value;
+                          });
+                        },
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => const Color(0xFF20BCDE)),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
-            Container(
-              padding: const EdgeInsets.all(15),
-              margin:
-                  const EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
-              height: 75,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade400),
-                  borderRadius: BorderRadius.circular(8)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Morning',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      )),
-                  Radio(
-                    toggleable: true,
-                    value: 1,
-                    groupValue: _value,
-                    onChanged: (value) {
-                      setState(() {
-                        _value = value;
-                      });
-                    },
-                    fillColor: MaterialStateColor.resolveWith(
-                        (states) => const Color(0xFF20BCDE)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Text(
+                    'Payment:',
+                    style: TextStyle(color: Colors.black, fontSize: 24),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(15),
-              margin:
-                  const EdgeInsets.only(top: 5, left: 25, right: 25, bottom: 5),
-              height: 75,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade400),
-                  borderRadius: BorderRadius.circular(8)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Evening',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                      )),
-                  Radio(
-                    toggleable: true,
-                    value: 2,
-                    groupValue: _value,
-                    onChanged: (value) {
-                      setState(() {
-                        _value = value;
-                      });
-                    },
-                    fillColor: MaterialStateColor.resolveWith(
-                        (states) => const Color(0xFF20BCDE)),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  // margin: const EdgeInsets.only(
+                  //     top: 5, left: 5, right: 5, bottom: 5),
+                  // height: 75,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Online',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          )),
+                      Radio(
+                        toggleable: true,
+                        value: 1,
+                        groupValue: _pValue,
+                        onChanged: (value) {
+                          setState(() {
+                            _pValue = value;
+                          });
+                        },
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => const Color(0xFF20BCDE)),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  // margin: const EdgeInsets.only(
+                  //     top: 5, left: 55, right: 5, bottom: 5),
+                  // height: 75,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Offline',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          )),
+                      Radio(
+                        toggleable: true,
+                        value: 2,
+                        groupValue: _pValue,
+                        onChanged: (value) {
+                          setState(() {
+                            _pValue = value;
+                          });
+                        },
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => const Color(0xFF20BCDE)),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Text(
+                    'Mode:',
+                    style: TextStyle(color: Colors.black, fontSize: 24),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  // margin: const EdgeInsets.only(
+                  //     top: 5, left: 5, right: 5, bottom: 5),
+                  // height: 75,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Weekly',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          )),
+                      Radio(
+                        toggleable: true,
+                        value: 1,
+                        groupValue: _mValue,
+                        onChanged: (value) {
+                          setState(() {
+                            _mValue = value;
+                          });
+                        },
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => const Color(0xFF20BCDE)),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  // margin: const EdgeInsets.only(
+                  //     top: 5, left: 55, right: 5, bottom: 5),
+                  // height: 75,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Biweekly',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          )),
+                      Radio(
+                        toggleable: true,
+                        value: 2,
+                        groupValue: _mValue,
+                        onChanged: (value) {
+                          setState(() {
+                            _mValue = value;
+                          });
+                        },
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => const Color(0xFF20BCDE)),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               children: [
                 Padding(
@@ -154,9 +359,10 @@ class _FarmerPickupState extends State<FarmerPickup> {
                     style: TextStyle(color: Colors.black, fontSize: 24),
                   ),
                 ),
-                SizedBox(width: 30,),
+                SizedBox(
+                  width: 30,
+                ),
                 DropdownButton(
-
                   // Initial Value
                   value: dropdownvalue,
 
@@ -180,9 +386,12 @@ class _FarmerPickupState extends State<FarmerPickup> {
                 ),
               ],
             ),
-            SizedBox(height: 50,),
+            SizedBox(
+              height: 50,
+            ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
+                await addRequest();
               },
               child: Center(
                 child: Container(
