@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class FarmerProfile extends StatefulWidget {
   const FarmerProfile({Key? key}) : super(key: key);
@@ -44,71 +45,125 @@ class _FarmerProfileState extends State<FarmerProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: 
-        name!=null?
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 100,
-              width: 100,
-              child: Text('QR code'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 100,
-              width: 200,
-              child: Text('Name : $name'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 100,
-              width: 200,
-              child: Text('Email : $email'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 100,
-              width: 200,
-              child: Text('Account no : $accno'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 100,
-              width: 200,
-              child: Text('Location : $location'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 100,
-              width: 200,
-              child: Text('Aadhar no : $aadhar'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-                child: GestureDetector(
-              onTap: () {},
-              child: Text(
-                'Logout',
-                style: TextStyle(color: Colors.blueAccent, fontSize: 28),
+    return Scaffold(  
+      body: SingleChildScrollView(
+        child: Center(
+          child:
+          name!=null?
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 20,),
+              Card(
+
+                child: Container(
+                  height: 250,
+                  width: 250,
+                  child: GenerateQR(email),
+                ),
               ),
-            )),
+              SizedBox(
+                height: 10,
+              ),
+              Card(
+                color: Colors.cyan,
+                child: Container(  
+                  height: 50,
+                  width: 350,
+                  child: Center(child: Text('Name : $name',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Card(
+                color: Colors.cyan,
+                child: Container(  
+                  height: 50,
+                  width: 350,
+                  child: Center(child: Text('Email : $email',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Card(
+                color: Colors.cyan,
+                child: Container(  
+                  height: 50,
+                  width: 350,
+                  child: Center(child: Text('Account no : $accno',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Card(
+                color: Colors.cyan,
+                child: Container(
+                  height: 50,
+                  width: 350,
+                  child: Center(child: Text('Location : $location',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                ),
+              ),
+              SizedBox( 
+                height: 10,
+              ),
+              Card(
+                color: Colors.cyan,
+                child: Container(
+                  height: 50,
+                  width: 350,
+                  child: Center(child: Text('Aadhar no : $aadhar',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Center(
+                  child: GestureDetector(
+                onTap: () {},
+                child: Text(
+                  'Logout',
+                  style: TextStyle(color: Colors.blueAccent, fontSize: 28),
+                ),
+              )),
+            ],
+          ):CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+}
+
+class GenerateQR extends StatefulWidget {
+  String email;
+  GenerateQR(this.email);
+
+  @override
+  _GenerateQRState createState() => _GenerateQRState();
+}
+
+class _GenerateQRState extends State<GenerateQR> {
+
+  final qrdataFeed = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+      padding: const EdgeInsets.all(20),
+      child: SingleChildScrollView(
+
+        //Scroll view given to Column
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            QrImage(data: widget.email),
+            const SizedBox(height: 20),
+            const Text("Generate QR Code",style: TextStyle(fontSize: 20),),
+
           ],
-        ):CircularProgressIndicator(),
+        ),
       ),
     );
   }
