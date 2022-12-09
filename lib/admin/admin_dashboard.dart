@@ -68,7 +68,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddMilk()));
+                    MaterialPageRoute(builder: (context) => Scanner()));
               },
             ),
             ElevatedButton(
