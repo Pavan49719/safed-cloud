@@ -31,6 +31,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
+        
       );
     } catch (e) {
       print(e);
@@ -45,6 +46,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       final json = {
         'email': email.text.trim(),
         'name': name.text.trim(),
+        'phoneno':'',
         'aadhar':'',
         'acc-no':'',
         'age':'',

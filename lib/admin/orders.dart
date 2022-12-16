@@ -58,116 +58,128 @@ class _OrdersState extends State<Orders> {
               icon: Icon(Icons.refresh))
         ],
       ),
-      body: ListView.builder(
-          itemCount: Count,
-          itemBuilder: (BuildContext context, int index) {
-            // String dtime =
-            // timeAgoSinceDate('');
-            return Card(
-              child: GFListTile(
-                  color: Colors.transparent,
-                  avatar: const GFAvatar(
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
-                  ),
-                  title: Text(
-                    '${documents?[index]['name']}',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  subTitle: Padding(
-                    padding: const EdgeInsets.only(top: 2.50),
-                    child: Text(
-                      'Location: ${documents?[index]['location']}',
-                    ),
-                  ),
-                  icon: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      documents?[index]['status'] == 'Pending'
-                          ? Icon(Icons.pending_actions,color: Colors.yellow[800],)
-                          : documents?[index]['status'] == 'Accepted'
-                              ? Icon(
-                                  Icons.done,
-                                  color: Colors.green,
-                                )
-                              : Icon(
-                                  Icons.cancel,
-                                  color: Colors.red,
-                                ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.announcement,
-                          color: Colors.blue,
+      body: Count != null
+          ? ListView.builder(
+              itemCount: Count,
+              itemBuilder: (BuildContext context, int index) {
+                // String dtime =
+                // timeAgoSinceDate('');
+                return Card(
+                  child: GFListTile(
+                      color: Colors.transparent,
+                      avatar: const GFAvatar(
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.white,
                         ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SimpleDialog(
-                                title: const Text('More Information'),
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Name: ${documents?[index]['name']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Location: ${documents?[index]['location']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Email: ${documents?[index]['email']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Mode: ${documents?[index]['mode']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Shift:${documents?[index]['shift']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Status:${documents?[index]['status']}'),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                      ),
+                      title: Text(
+                        '${documents?[index]['name']}',
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      subTitle: Padding(
+                        padding: const EdgeInsets.only(top: 2.50),
+                        child: Text(
+                          'Location: ${documents?[index]['location']}',
+                        ),
+                      ),
+                      icon: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          documents?[index]['status'] == 'Pending'
+                              ? Icon(
+                                  Icons.pending_actions,
+                                  size: 35,
+                                  color: Colors.yellow[800],
+                                )
+                              : documents?[index]['status'] == 'Accepted'
+                                  ? Icon(
+                                      Icons.done,
+                                      size: 35,
+                                      color: Colors.green,
+                                    )
+                                  : Icon(
+                                      Icons.cancel,
+                                      size: 35,
+                                      color: Colors.red,
+                                    ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.announcement,
+                              color: Colors.blue,
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SimpleDialog(
+                                    title: const Text('More Information'),
                                     children: [
-                                      ElevatedButton(
-                                          onPressed: () async {
-                                            await rejected(
-                                                documents?[index]['email']);
-                                          },
-                                          child: Text('Reject')),
-                                      ElevatedButton(
-                                          onPressed: () async {
-                                            await accepted(
-                                                documents?[index]['email']);
-                                          },
-                                          child: Text('Accept'))
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Name: ${documents?[index]['name']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Location: ${documents?[index]['location']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Phone: ${documents?[index]['phoneno']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Mode: ${documents?[index]['mode']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Shift:${documents?[index]['shift']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Status:${documents?[index]['status']}'),
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          ElevatedButton(
+                                              onPressed: () async {
+                                                await rejected(
+                                                    documents?[index]['email']);
+                                                Navigator.pop(context);
+                                                await readData();
+                                              },
+                                              child: Text('Reject')),
+                                          ElevatedButton(
+                                              onPressed: () async {
+                                                await accepted(
+                                                    documents?[index]['email']);
+                                                Navigator.pop(context);
+                                                await readData();
+                                              },
+                                              child: Text('Accept'))
+                                        ],
+                                      )
                                     ],
-                                  )
-                                ],
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      ),
-                      // Text(dtime),
-                    ],
-                  )),
-            );
-          }),
+                          ),
+                          // Text(dtime),
+                        ],
+                      )),
+                );
+              })
+          : Container(),
     );
   }
 }

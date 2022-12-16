@@ -26,7 +26,7 @@ class _SetMilkPriceState extends State<SetMilkPrice> {
     final file = File(pickedFile!.path!);
     final ref = FirebaseStorage.instance.ref().child(path);
     ref.putFile(file);
-    
+    Navigator.pop(context);
   }
 
   @override
@@ -36,16 +36,26 @@ class _SetMilkPriceState extends State<SetMilkPrice> {
         title: Text('Set Milk Price'),
       ),
       body: Container(
+        width: double.infinity,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            pickedFile != null
+                ? Text("Selected File: ${pickedFile!.name}")
+                : Container(),
+            SizedBox(
+              height: 20,
+            ),
             ElevatedButton(
               child: Text('Select file'),
               onPressed: selectFile,
             ),
-            ElevatedButton(
-              child: Text('Upload file'),
-              onPressed: uploadFile,
-            ),
+            pickedFile != null
+                ? ElevatedButton(
+                    child: Text('Upload file'),
+                    onPressed: uploadFile,
+                  )
+                : Container(),
           ],
         ),
       ),

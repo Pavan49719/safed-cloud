@@ -15,7 +15,6 @@ class _ScannerState extends State<Scanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController controller;
 
-
   @override
   void dispose() {
     controller.dispose();
@@ -46,8 +45,10 @@ class _ScannerState extends State<Scanner> {
                 TextButton(
                   child: const Text('Ok'),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AddMilk(scanData.code!)));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddMilk(scanData.code!)));
                   },
                 ),
               ],
@@ -92,16 +93,6 @@ class _ScannerState extends State<Scanner> {
   }
 }
 
-Future<void> _launchInBrowser(Uri url) async {
-  if (!await launchUrl(
-    url,
-    mode: LaunchMode.externalApplication,
-  )) {
-    throw 'Could not launch $url';
-  }
-}
-
-
 class AddMilk extends StatefulWidget {
   String email;
   AddMilk(this.email);
@@ -114,8 +105,6 @@ class _AddMilkState extends State<AddMilk> {
   var _sValue;
   var _milktype;
 
-
-
   String? sdate;
   TextEditingController dateController = TextEditingController();
 
@@ -125,26 +114,21 @@ class _AddMilkState extends State<AddMilk> {
   TextEditingController rate = TextEditingController();
   TextEditingController total = TextEditingController();
 
-  int quant=0;
-  int ra=0;
+  int quant = 0;
+  int ra = 0;
 
   @override
   void initState() {
     dateController.text = ""; //set the initial value of text field
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Add Milk"),
-          actions: [
-            IconButton(
-                icon: Icon(Icons.history),
-                onPressed: () {
-
-                })
-          ],
+          actions: [IconButton(icon: Icon(Icons.history), onPressed: () {})],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -156,55 +140,66 @@ class _AddMilkState extends State<AddMilk> {
                   height: 150,
                   child: Center(
                       child: TextField(
-                        controller:
+                    controller:
                         dateController, //editing controller of this TextField
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today), //icon of text field
-                            labelText: "Enter Date" //label text of field
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.calendar_today), //icon of text field
+                        labelText: "Enter Date" //label text of field
                         ),
-                        readOnly: true, // when true user cannot edit text
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(), //get today's date
-                              firstDate: DateTime(
-                                  2000), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime(2101));
+                    readOnly: true, // when true user cannot edit text
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(), //get today's date
+                          firstDate: DateTime(
+                              2000), //DateTime.now() - not to allow to choose before today.
+                          lastDate: DateTime(2101));
 
-                          if (pickedDate != null) {
-                            print(
-                                pickedDate); //get the picked date in the format => 2022-07-04 00:00:00.000
-                            String formattedDate = DateFormat('yyyy-MM-dd').format(
-                                pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-                            print(
-                                formattedDate); //formatted date output using intl package =>  2022-07-04
-                            //You can format date as per your need
+                      if (pickedDate != null) {
+                        print(
+                            pickedDate); //get the picked date in the format => 2022-07-04 00:00:00.000
+                        String formattedDate = DateFormat('yyyy-MM-dd').format(
+                            pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
+                        print(
+                            formattedDate); //formatted date output using intl package =>  2022-07-04
+                        //You can format date as per your need
 
-                            setState(() {
-                              dateController.text = formattedDate;
-                              sdate =
-                                  formattedDate; //set foratted date to TextField value.
-                            });
-                          } else {
-                            print("Date is not selected");
-                          }
-                        },
-                      ))),
+                        setState(() {
+                          dateController.text = formattedDate;
+                          sdate =
+                              formattedDate; //set foratted date to TextField value.
+                        });
+                      } else {
+                        print("Date is not selected");
+                      }
+                    },
+                  ))),
               SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Id',style: TextStyle(fontSize: 20),),
-                  SizedBox(width: 20,),
-                  SizedBox(width: 20,),
-                  Container(
-                      child:  Text(widget.email,style: TextStyle(fontSize: 20),)
+                  Text(
+                    'Phone no.',
+                    style: TextStyle(fontSize: 20),
                   ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                      child: Text(
+                    widget.email,
+                    style: TextStyle(fontSize: 20),
+                  )),
                 ],
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -241,7 +236,7 @@ class _AddMilkState extends State<AddMilk> {
                             });
                           },
                           fillColor: MaterialStateColor.resolveWith(
-                                  (states) => const Color(0xFF20BCDE)),
+                              (states) => const Color(0xFF20BCDE)),
                         ),
                       ],
                     ),
@@ -272,7 +267,7 @@ class _AddMilkState extends State<AddMilk> {
                             });
                           },
                           fillColor: MaterialStateColor.resolveWith(
-                                  (states) => const Color(0xFF20BCDE)),
+                              (states) => const Color(0xFF20BCDE)),
                         ),
                       ],
                     ),
@@ -318,7 +313,7 @@ class _AddMilkState extends State<AddMilk> {
                             });
                           },
                           fillColor: MaterialStateColor.resolveWith(
-                                  (states) => const Color(0xFF20BCDE)),
+                              (states) => const Color(0xFF20BCDE)),
                         ),
                       ],
                     ),
@@ -349,7 +344,7 @@ class _AddMilkState extends State<AddMilk> {
                             });
                           },
                           fillColor: MaterialStateColor.resolveWith(
-                                  (states) => const Color(0xFF20BCDE)),
+                              (states) => const Color(0xFF20BCDE)),
                         ),
                       ],
                     ),
@@ -390,7 +385,9 @@ class _AddMilkState extends State<AddMilk> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Container(
                     padding: const EdgeInsets.only(left: 25, right: 25),
                     height: 50,
@@ -420,7 +417,9 @@ class _AddMilkState extends State<AddMilk> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Container(
                     padding: const EdgeInsets.only(left: 25, right: 25),
                     height: 50,
@@ -450,7 +449,9 @@ class _AddMilkState extends State<AddMilk> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Container(
                     padding: const EdgeInsets.only(left: 25, right: 25),
                     height: 50,
@@ -480,16 +481,27 @@ class _AddMilkState extends State<AddMilk> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Quantity',style: TextStyle(fontSize: 20),),
-                      SizedBox(width: 20,),
-                      SizedBox(width: 20,),
-                      Container(
-                        child:  Text(ra.toString(),style: TextStyle(fontSize: 20),)
+                      Text(
+                        'Quantity',
+                        style: TextStyle(fontSize: 20),
                       ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Container(
+                          child: Text(
+                        ra.toString(),
+                        style: TextStyle(fontSize: 20),
+                      )),
                     ],
                   ),
                 ],
@@ -503,7 +515,7 @@ class _AddMilkState extends State<AddMilk> {
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        ra=int.parse(rate.text)*int.parse(quantity.text);
+                        ra = int.parse(rate.text) * int.parse(quantity.text);
                       });
                     },
                     child: Center(
@@ -529,8 +541,7 @@ class _AddMilkState extends State<AddMilk> {
                     width: 10,
                   ),
                   GestureDetector(
-                    onTap: () {
-                    },
+                    onTap: () {},
                     child: Center(
                       child: Container(
                         width: 100,

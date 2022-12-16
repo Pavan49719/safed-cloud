@@ -2,6 +2,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FarmerMilkRate extends StatefulWidget {
   const FarmerMilkRate({Key? key}) : super(key: key);
@@ -14,17 +15,29 @@ class _FarmerMilkRateState extends State<FarmerMilkRate> {
   var _value;
   String? urlfile;
   printUrl() async {
-    final ref =
-        FirebaseStorage.instance.ref().child("files/Invitationletter.pdf");
-    String url = (await ref.getDownloadURL()).toString();
+    final ref1 =
+        FirebaseStorage.instance.ref().child("files/cow_milk_rate.pdf");
+    String url1 = (await ref1.getDownloadURL()).toString();
+    final ref2 =
+        FirebaseStorage.instance.ref().child("files/buffalo_milk_rate.pdf");
+    String url2 = (await ref1.getDownloadURL()).toString();
     setState(() {
-      urlfile = url;
+      urlfile = url1;
     });
-    print("URL: $url");
+    print("URL: $url1");
   }
 
   String dropdownvalue = 'Katraj Dairy';
   var items = ['Katraj Dairy', 'AMUL Dairy'];
+
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,9 +185,8 @@ class _FarmerMilkRateState extends State<FarmerMilkRate> {
           urlfile != null
               ? GestureDetector(
                   onTap: () async {
-                    
+                    _launchInBrowser(Uri.parse(urlfile!));
                   },
-                  
                   child: Center(
                     child: Container(
                       width: 200,

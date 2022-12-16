@@ -19,6 +19,7 @@ class _FarmerPickupState extends State<FarmerPickup> {
   var fname;
   var femail;
   var flocation;
+  var fphno;
   String? sdate;
   var items = ['Katraj Dairy', 'AMUL Dairy'];
   TextEditingController dateController = TextEditingController();
@@ -37,6 +38,7 @@ class _FarmerPickupState extends State<FarmerPickup> {
         fname = data?['name'];
         femail = data?['email'];
         flocation = data?['location'];
+        fphno = data?['phoneno'];
       });
 
       final json = {
@@ -48,6 +50,7 @@ class _FarmerPickupState extends State<FarmerPickup> {
         'payment-mode': _pValue == 1 ? 'Online' : 'Offline',
         'mode': _mValue == 1 ? 'Weekly' : 'Biweekly',
         'status': 'Pending',
+        'phoneno': fphno,
       };
       await docUser.set(json, SetOptions(merge: true));
     }
@@ -111,6 +114,7 @@ class _FarmerPickupState extends State<FarmerPickup> {
                         sdate =
                             formattedDate; //set foratted date to TextField value.
                       });
+                      print("Date: $sdate");
                     } else {
                       print("Date is not selected");
                     }
@@ -392,6 +396,7 @@ class _FarmerPickupState extends State<FarmerPickup> {
             GestureDetector(
               onTap: () async {
                 await addRequest();
+                Navigator.pop(context);
               },
               child: Center(
                 child: Container(
