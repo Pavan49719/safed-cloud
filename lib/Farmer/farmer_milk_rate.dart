@@ -13,18 +13,20 @@ class FarmerMilkRate extends StatefulWidget {
 
 class _FarmerMilkRateState extends State<FarmerMilkRate> {
   var _value;
-  String? urlfile;
+  String? urlfilecow;
+  String? urlfilebuffalo;
   printUrl() async {
     final ref1 =
         FirebaseStorage.instance.ref().child("files/cow_milk_rate.pdf");
     String url1 = (await ref1.getDownloadURL()).toString();
     final ref2 =
         FirebaseStorage.instance.ref().child("files/buffalo_milk_rate.pdf");
-    String url2 = (await ref1.getDownloadURL()).toString();
+    String url2 = (await ref2.getDownloadURL()).toString();
     setState(() {
-      urlfile = url1;
+      urlfilecow = url1;
+      urlfilebuffalo = url2;
     });
-    print("URL: $url1");
+    print("URL1: $url1 URL2: $url2");
   }
 
   String dropdownvalue = 'Katraj Dairy';
@@ -182,10 +184,10 @@ class _FarmerMilkRateState extends State<FarmerMilkRate> {
           SizedBox(
             height: 20,
           ),
-          urlfile != null
+          urlfilecow != null
               ? GestureDetector(
                   onTap: () async {
-                    _launchInBrowser(Uri.parse(urlfile!));
+                    _launchInBrowser(Uri.parse( _value == 2 ? urlfilebuffalo!:urlfilecow!));
                   },
                   child: Center(
                     child: Container(

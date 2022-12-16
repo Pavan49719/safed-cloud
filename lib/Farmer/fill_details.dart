@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 import 'package:flutter/material.dart';
 
 class FillDetails extends StatefulWidget {
@@ -315,6 +316,41 @@ class _FillDetailsState extends State<FillDetails> {
                   ),
                   SizedBox(
                     width: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      await addFarmerInfo();
+
+                      String message =
+                          "Hello ${name.text}, Your account has been created!";
+                      List<String> recipents = [phno.text];
+
+                      String _result = await sendSMS(
+                        message: message,
+                        recipients: recipents,
+                        sendDirect: true,
+                      ).catchError((onError) {
+                        print(onError);
+                      });
+                      print(_result);
+
+                      Navigator.pop(context);
+                    },
+                    child: Center(
+                      child: Container(
+                        width: 100,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: const Color(0xFF20BCDE),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Text(
+                            'Create',
+                            style: TextStyle(color: Colors.white, fontSize: 28),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
