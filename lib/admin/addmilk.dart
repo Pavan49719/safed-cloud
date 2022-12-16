@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dairy/admin/history.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
@@ -29,32 +32,8 @@ class _ScannerState extends State<Scanner> {
         await launchUrl(Uri.parse((scanData.code)!));
         controller.resumeCamera();
       } else {
-        showDialog(
-          context: this.context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Url'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text('Data: ${scanData.code}'),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Ok'),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddMilk(scanData.code!)));
-                  },
-                ),
-              ],
-            );
-          },
-        ).then((value) => controller.resumeCamera());
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => AddMilk(scanData.code!)));
       }
     });
   }
@@ -107,7 +86,7 @@ class _AddMilkState extends State<AddMilk> {
 
   String? sdate;
   TextEditingController dateController = TextEditingController();
-
+  TextEditingController name = TextEditingController();
   TextEditingController fat = TextEditingController();
   TextEditingController snf = TextEditingController();
   TextEditingController quantity = TextEditingController();
@@ -116,6 +95,26 @@ class _AddMilkState extends State<AddMilk> {
 
   int quant = 0;
   int ra = 0;
+
+  Future addFarmerInfo() async {
+    final docUser = FirebaseFirestore.instance
+        .collection('history')
+        .doc('${dateController.text} ${_sValue}');
+
+    final json = {
+      'name': name.text,
+      'date': dateController.text,
+      'phoneno': widget.email,
+      'shift': _sValue,
+      'Type': _milktype,
+      'Fat': fat.text,
+      'Snf': snf.text,
+      'Quantity': quantity.text,
+      'Rate': rate.text,
+      'Total': ra.toString(),
+    };
+    await docUser.set(json, SetOptions(merge: true));
+  }
 
   @override
   void initState() {
@@ -128,7 +127,14 @@ class _AddMilkState extends State<AddMilk> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Add Milk"),
-          actions: [IconButton(icon: Icon(Icons.history), onPressed: () {})],
+          actions: [
+            IconButton(
+                icon: Icon(Icons.history),
+                onPressed: () async {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => History()));
+                })
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -137,7 +143,7 @@ class _AddMilkState extends State<AddMilk> {
             children: [
               Container(
                   padding: const EdgeInsets.all(15),
-                  height: 150,
+                  // height: 150,
                   child: Center(
                       child: TextField(
                     controller:
@@ -174,6 +180,35 @@ class _AddMilkState extends State<AddMilk> {
                       }
                     },
                   ))),
+              Container(
+                padding: const EdgeInsets.only(left: 25, right: 25),
+                height: 50,
+                child: TextField(
+                  controller: name,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(13.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Color(0xFF20BCDE),
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.circular(13.0),
+                    ),
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.only(top: 5, left: 35),
+                    hintText: 'Enter Name',
+                    hintStyle: TextStyle(color: Colors.grey[600]),
+                  ),
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -187,9 +222,6 @@ class _AddMilkState extends State<AddMilk> {
                   SizedBox(
                     width: 20,
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
                   Container(
                       child: Text(
                     widget.email,
@@ -198,7 +230,7 @@ class _AddMilkState extends State<AddMilk> {
                 ],
               ),
               SizedBox(
-                height: 30,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -488,7 +520,7 @@ class _AddMilkState extends State<AddMilk> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Quantity',
+                        'Total Amount',
                         style: TextStyle(fontSize: 20),
                       ),
                       SizedBox(
@@ -507,10 +539,10 @@ class _AddMilkState extends State<AddMilk> {
                 ],
               ),
               SizedBox(
-                height: 50,
+                height: 10,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -527,21 +559,31 @@ class _AddMilkState extends State<AddMilk> {
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: Text(
-                            'Get Rate',
-                            style: TextStyle(color: Colors.white, fontSize: 28),
+                            'Calculate',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      String message =
+                          "Order Reciept:\nName-${name.text}\nDate-${dateController.text}\nFat-${fat.text}\nSnf-${snf.text}\nQuantity-${quantity.text}\nRate-${rate.text}\nTotal-${ra.toString()}\nShift-${_sValue == 1 ? 'Morning' : 'Evening'}\nType-${_milktype == 1 ? 'Cow' : 'Buffalo'}";
+                      List<String> recipents = [widget.email];
+
+                      String _result = await sendSMS(
+                        message: message,
+                        recipients: recipents,
+                        sendDirect: true,
+                      ).catchError((onError) {
+                        print(onError);
+                      });
+                      print(_result);
+                      await addFarmerInfo();
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => History()));
+                    },
                     child: Center(
                       child: Container(
                         width: 100,
@@ -552,7 +594,41 @@ class _AddMilkState extends State<AddMilk> {
                         child: Center(
                           child: Text(
                             'Submit',
-                            style: TextStyle(color: Colors.white, fontSize: 28),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      String message =
+                          "Order Reciept:\nName-${name.text}\nDate-${dateController.text}\nFat-${fat.text}\nSnf-${snf.text}\nQuantity-${quantity.text}\nRate-${rate.text}\nTotal-${ra.toString()}\nShift-${_sValue == 1 ? 'Morning' : 'Evening'}\nType-${_milktype == 1 ? 'Cow' : 'Buffalo'}";
+                      List<String> recipents = [widget.email];
+
+                      String _result = await sendSMS(
+                        message: message,
+                        recipients: recipents,
+                        sendDirect: true,
+                      ).catchError((onError) {
+                        print(onError);
+                      });
+                      print(_result);
+                      await addFarmerInfo();
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => History()));
+                    },
+                    child: Center(
+                      child: Container(
+                        width: 110,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: const Color(0xFF20BCDE),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Center(
+                          child: Text(
+                            'Send SMS',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
                       ),
@@ -560,6 +636,9 @@ class _AddMilkState extends State<AddMilk> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 30,
+              )
             ],
           ),
         ));
