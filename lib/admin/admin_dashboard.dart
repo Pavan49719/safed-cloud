@@ -26,6 +26,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           children: [
             ElevatedButton(
               child: Container(
+                padding: EdgeInsets.all(14),
                 child: Column(
                   children: [
                     Icon(Icons.grass),
@@ -40,6 +41,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
             ElevatedButton(
               child: Container(
+                padding: EdgeInsets.all(14),
                 child: Column(
                   children: [
                     Icon(Icons.checklist_rtl),
@@ -59,6 +61,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           children: [
             ElevatedButton(
               child: Container(
+                padding: EdgeInsets.all(14),
                 child: Column(
                   children: [
                     Icon(Icons.plus_one),
@@ -73,6 +76,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
             ElevatedButton(
               child: Container(
+                padding: EdgeInsets.all(14),
                 child: Column(
                   children: [
                     Icon(Icons.price_change),
@@ -92,20 +96,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           children: [
             ElevatedButton(
               child: Container(
-                child: Column(
-                  children: [
-                    Icon(Icons.plus_one),
-                    Text('Milk Collection'),
-                  ],
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MilkCollection()));
-              },
-            ),
-            ElevatedButton(
-              child: Container(
+                padding: EdgeInsets.all(14),
                 child: Column(
                   children: [
                     Icon(Icons.price_change),

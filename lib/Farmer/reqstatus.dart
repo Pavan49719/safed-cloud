@@ -26,7 +26,7 @@ class _CheckStatusState extends State<CheckStatus> {
       Map<String, dynamic>? data = docSnapshot.data();
       setState(() {
         name = data?['name'];
-        email = data?['email'];
+        email = data?['phonono'];
         shift = data?['shift'];
         location = data?['location'];
         status = data?['status'];
@@ -57,24 +57,72 @@ class _CheckStatusState extends State<CheckStatus> {
               icon: Icon(Icons.refresh))
         ],
       ),
-      body: Column(
-        children: [
-          Text('$name\n$email\n$shift\n$date'),
-          status == 'Pending'
-              ? Icon(
-                  Icons.pending_actions,
-                  color: Colors.yellow[800],
-                )
-              : status == 'Accepted'
-                  ? Icon(
-                      Icons.done,
-                      color: Colors.green,
-                    )
-                  : Icon(
-                      Icons.cancel,
-                      color: Colors.red,
-                    )
-        ],
+      body: Center(
+        child: status != null
+            ? Container(
+                height: 450,
+                width: 300,
+                child: Card(
+                  elevation: 30,
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name: $name',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Shift: $shift',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Date: $date',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Location: $location',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              '$status',
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold),
+                            ),
+                            status == 'Pending'
+                                ? Icon(
+                                    Icons.pending_actions,
+                                    size: 44,
+                                    color: Colors.yellow[800],
+                                  )
+                                : status == 'Accepted'
+                                    ? Icon(
+                                        Icons.done,
+                                        size: 44,
+                                        color: Colors.green,
+                                      )
+                                    : Icon(
+                                        Icons.cancel,
+                                        size: 44,
+                                        color: Colors.red,
+                                      )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : CircularProgressIndicator(),
       ),
     );
   }

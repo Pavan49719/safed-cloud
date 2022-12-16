@@ -38,87 +38,89 @@ class _FarmDetState extends State<FarmDet> {
       appBar: AppBar(
         title: Text('Farmer\'s details'),
       ),
-      body: ListView.builder(
-          itemCount: Count,
-          itemBuilder: (BuildContext context, int index) {
-            // String dtime =
-            // timeAgoSinceDate('');
-            return Card(
-              child: GFListTile(
-                  color: Colors.transparent,
-                  avatar: const GFAvatar(
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
-                  ),
-                  title: Text(
-                    '${documents?[index]['name']}',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  subTitle: Padding(
-                    padding: const EdgeInsets.only(top: 2.50),
-                    child: Text(
-                      'Location: ${documents?[index]['location']}',
-                    ),
-                  ),
-                  icon: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.announcement,
-                          color: Colors.blue,
+      body: Count != null
+          ? ListView.builder(
+              itemCount: Count,
+              itemBuilder: (BuildContext context, int index) {
+                // String dtime =
+                // timeAgoSinceDate('');
+                return Card(
+                  child: GFListTile(
+                      color: Colors.transparent,
+                      avatar: const GFAvatar(
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.white,
                         ),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return SimpleDialog(
-                                title: const Text('More Information'),
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Name: ${documents?[index]['name']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Location: ${documents?[index]['location']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Age: ${documents?[index]['age']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Email: ${documents?[index]['email']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Aadhar no.:${documents?[index]['aadhar']}'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        'Account no.:${documents?[index]['acc-no']}'),
-                                  ),
-                                ],
+                      ),
+                      title: Text(
+                        '${documents?[index]['name']}',
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      subTitle: Padding(
+                        padding: const EdgeInsets.only(top: 2.50),
+                        child: Text(
+                          'Location: ${documents?[index]['location']}',
+                        ),
+                      ),
+                      icon: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.announcement,
+                              color: Colors.blue,
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SimpleDialog(
+                                    title: const Text('More Information'),
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Name: ${documents?[index]['name']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Location: ${documents?[index]['location']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Age: ${documents?[index]['age']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Phone: ${documents?[index]['phoneno']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Aadhar no.:${documents?[index]['aadhar']}'),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            'Account no.:${documents?[index]['acc-no']}'),
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      ),
-                      // Text(dtime),
-                    ],
-                  )),
-            );
-          }),
+                          ),
+                          // Text(dtime),
+                        ],
+                      )),
+                );
+              })
+          : Center(child: CircularProgressIndicator()),
     );
   }
 }

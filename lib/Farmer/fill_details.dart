@@ -16,8 +16,9 @@ class _FillDetailsState extends State<FillDetails> {
   TextEditingController age = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController aadhar = TextEditingController();
-  TextEditingController Acno = TextEditingController();
+  TextEditingController acno = TextEditingController();
   TextEditingController ifsc = TextEditingController();
+  TextEditingController phno = TextEditingController();
 
   Future addFarmerInfo() async {
     final docUser =
@@ -26,9 +27,10 @@ class _FillDetailsState extends State<FillDetails> {
     final json = {
       'name': name.text,
       'age': age.text,
+      'phoneno': phno.text,
       'location': location.text,
       'aadhar': aadhar.text,
-      'acc-no': Acno.text,
+      'acc-no': acno.text,
       'ifsc-code': ifsc.text,
     };
     await docUser.set(json, SetOptions(merge: true));
@@ -82,6 +84,7 @@ class _FillDetailsState extends State<FillDetails> {
                 elevation: 2.0,
                 borderRadius: BorderRadius.circular(22.0),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   controller: age,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -100,6 +103,41 @@ class _FillDetailsState extends State<FillDetails> {
                     ),
                     contentPadding: const EdgeInsets.only(top: 5, left: 35),
                     hintText: 'Enter age',
+                    hintStyle: TextStyle(color: Colors.grey[600]),
+                  ),
+                  style: TextStyle(color: Colors.grey[900]),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              padding: const EdgeInsets.only(left: 25, right: 25),
+              height: 35,
+              child: Material(
+                elevation: 2.0,
+                borderRadius: BorderRadius.circular(22.0),
+                child: TextField(
+                  keyboardType: TextInputType.phone,
+                  controller: phno,
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.grey,
+                        width: 0.0,
+                      ),
+                      borderRadius: BorderRadius.circular(22.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.grey,
+                        width: 0.0,
+                      ),
+                      borderRadius: BorderRadius.circular(22.0),
+                    ),
+                    contentPadding: const EdgeInsets.only(top: 5, left: 35),
+                    hintText: 'Enter phone no',
                     hintStyle: TextStyle(color: Colors.grey[600]),
                   ),
                   style: TextStyle(color: Colors.grey[900]),
@@ -150,6 +188,7 @@ class _FillDetailsState extends State<FillDetails> {
                 elevation: 2.0,
                 borderRadius: BorderRadius.circular(22.0),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   controller: aadhar,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -184,7 +223,7 @@ class _FillDetailsState extends State<FillDetails> {
                 elevation: 2.0,
                 borderRadius: BorderRadius.circular(22.0),
                 child: TextField(
-                  controller: Acno,
+                  controller: acno,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
@@ -250,30 +289,13 @@ class _FillDetailsState extends State<FillDetails> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Center(
-                      child: Container(
-                        width: 100,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: const Color(0xFF20BCDE),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Text(
-                            'Save',
-                            style: TextStyle(color: Colors.white, fontSize: 28),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     width: 10,
                   ),
                   GestureDetector(
                     onTap: () async {
                       await addFarmerInfo();
+                      Navigator.pop(context);
                     },
                     child: Center(
                       child: Container(
@@ -293,26 +315,6 @@ class _FillDetailsState extends State<FillDetails> {
                   ),
                   SizedBox(
                     width: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      await addFarmerInfo();
-                    },
-                    child: Center(
-                      child: Container(
-                        width: 100,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: const Color(0xFF20BCDE),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Text(
-                            'Submit',
-                            style: TextStyle(color: Colors.white, fontSize: 28),
-                          ),
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),
