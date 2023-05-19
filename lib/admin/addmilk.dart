@@ -16,11 +16,11 @@ class Scanner extends StatefulWidget {
 
 class _ScannerState extends State<Scanner> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  late QRViewController controller;
+  QRViewController? controller;
 
   @override
   void dispose() {
-    controller.dispose();
+    controller?.dispose();
     super.dispose();
   }
 
@@ -568,6 +568,7 @@ class _AddMilkState extends State<AddMilk> {
                   ),
                   GestureDetector(
                     onTap: () async {
+                      await addFarmerInfo();
                       String message =
                           "Order Reciept:\nName-${name.text}\nDate-${dateController.text}\nFat-${fat.text}\nSnf-${snf.text}\nQuantity-${quantity.text}\nRate-${rate.text}\nTotal-${ra.toString()}\nShift-${_sValue == 1 ? 'Morning' : 'Evening'}\nType-${_milktype == 1 ? 'Cow' : 'Buffalo'}";
                       List<String> recipents = [widget.email];
@@ -580,7 +581,6 @@ class _AddMilkState extends State<AddMilk> {
                         print(onError);
                       });
                       print(_result);
-                      await addFarmerInfo();
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) => History()));
                     },

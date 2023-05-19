@@ -1,5 +1,6 @@
 import 'package:dairy/admin/admin_dashboard.dart';
 import 'package:dairy/Farmer/farmer_dashboard.dart';
+import 'package:dairy/importer/importer_dashboard.dart';
 import 'package:dairy/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -186,6 +187,37 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                       ),
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(
+                            top: 5, left: 25, right: 25, bottom: 5),
+                        height: 75,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Importer',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                )),
+                            Radio(
+                              toggleable: true,
+                              value: 3,
+                              groupValue: _value,
+                              onChanged: (value) {
+                                setState(() {
+                                  _value = value;
+                                });
+                              },
+                              fillColor: MaterialStateColor.resolveWith(
+                                  (states) => const Color(0xFF20BCDE)),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(
                         height: 30,
                       ),
@@ -197,11 +229,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AdminDashboard()));
-                          } else {
+                          } else if (_value == 2) {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => FarmerDashboard()));
+                          } else if (_value == 3) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ImporterDashboard()));
                           }
                         },
                         child: Center(

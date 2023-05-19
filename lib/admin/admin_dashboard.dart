@@ -1,7 +1,8 @@
 import 'package:dairy/admin/addmilk.dart';
+import 'package:dairy/admin/clustermap.dart';
 import 'package:dairy/admin/farmersdet.dart';
 import 'package:dairy/admin/history.dart';
-import 'package:dairy/admin/makepayments.dart';
+import 'package:dairy/admin/tenderslists.dart';
 import 'package:dairy/admin/milkcollection.dart';
 import 'package:dairy/admin/orders.dart';
 import 'package:dairy/admin/setprice.dart';
@@ -45,7 +46,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         size: 60,
                       ),
                       Text(
-                        'Farmer\'s \n\t  detail',
+                        'Farmer\'s  detail',
                         style: TextStyle(fontSize: 20),
                       ),
                     ],
@@ -112,7 +113,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       size: 60,
                     ),
                     Text(
-                      ' Add \n\tMilk',
+                      ' Add Milk',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
@@ -142,7 +143,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       size: 60,
                     ),
                     Text(
-                      '  Set Milk \n\t   Price',
+                      'Cluster',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
@@ -150,7 +151,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SetMilkPrice()));
+                    MaterialPageRoute(builder: (context) => ClusterAnalysis()));
               },
             ),
           ],
@@ -177,7 +178,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       size: 60,
                     ),
                     Text(
-                      '      Milk \n\tCollection',
+                      '      Milk Collection',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
@@ -207,7 +208,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       size: 60,
                     ),
                     Text(
-                      '  Make \nPayment',
+                      'Tenders',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
@@ -215,7 +216,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MakePayments()));
+                    MaterialPageRoute(builder: (context) => CTendersList()));
               },
             ),
           ],

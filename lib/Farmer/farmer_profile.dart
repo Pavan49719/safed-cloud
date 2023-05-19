@@ -51,121 +51,124 @@ class _FarmerProfileState extends State<FarmerProfile> {
     return Scaffold(
       body: Center(
         child: name != null
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Card(
-                    child: Container(
-                      height: 250,
-                      width: 250,
-                      child: GenerateQR(phno),
+            ? SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                    color: Colors.cyan,
-                    child: Container(
-                      height: 50,
-                      width: 350,
-                      child: Center(
-                          child: Text(
-                        'Name : $name',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
+                    Card(
+                      child: Container(
+                        height: 250,
+                        width: 250,
+                        child: GenerateQR(phno),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                    color: Colors.cyan,
-                    child: Container(
-                      height: 50,
-                      width: 350,
-                      child: Center(
-                          child: Text(
-                        'Phone no : $phno',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                    color: Colors.cyan,
-                    child: Container(
-                      height: 50,
-                      width: 350,
-                      child: Center(
-                          child: Text(
-                        'Account no : $accno',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
+                    Card(
+                      color: Colors.cyan,
+                      child: Container(
+                        height: 50,
+                        width: 350,
+                        child: Center(
+                            child: Text(
+                          'Name : $name',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                    color: Colors.cyan,
-                    child: Container(
-                      height: 50,
-                      width: 350,
-                      child: Center(
-                          child: Text(
-                        'Location : $location',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
+                    SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Card(
-                    color: Colors.cyan,
-                    child: Container(
-                      height: 50,
-                      width: 350,
-                      child: Center(
-                          child: Text(
-                        'Aadhar no : $aadhar',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
+                    Card(
+                      color: Colors.cyan,
+                      child: Container(
+                        height: 50,
+                        width: 350,
+                        child: Center(
+                            child: Text(
+                          'Phone no : $phno',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Center(
-                      child: GestureDetector(
-                    onTap: () async {
-                      try {
-                        await FirebaseAuth.instance.signOut();
-                      } catch (e) {
-                        print(e);
-                      }
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                    },
-                    child: Text(
-                      'Logout',
-                      style: TextStyle(color: Colors.blueAccent, fontSize: 28),
+                    SizedBox(
+                      height: 10,
                     ),
-                  )),
-                ],
+                    Card(
+                      color: Colors.cyan,
+                      child: Container(
+                        height: 50,
+                        width: 350,
+                        child: Center(
+                            child: Text(
+                          'Account no : $accno',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      color: Colors.cyan,
+                      child: Container(
+                        height: 50,
+                        width: 350,
+                        child: Center(
+                            child: Text(
+                          'Location : $location',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      color: Colors.cyan,
+                      child: Container(
+                        height: 50,
+                        width: 350,
+                        child: Center(
+                            child: Text(
+                          'Aadhar no : $aadhar',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Center(
+                        child: GestureDetector(
+                      onTap: () async {
+                        try {
+                          await FirebaseAuth.instance.signOut();
+                        } catch (e) {
+                          print(e);
+                        }
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
+                      },
+                      child: Text(
+                        'Logout',
+                        style:
+                            TextStyle(color: Colors.blueAccent, fontSize: 28),
+                      ),
+                    )),
+                  ],
+                ),
               )
             : CircularProgressIndicator(),
       ),
@@ -194,11 +197,6 @@ class _GenerateQRState extends State<GenerateQR> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             QrImage(data: widget.phno),
-            const SizedBox(height: 20),
-            const Text(
-              "Generate QR Code",
-              style: TextStyle(fontSize: 20),
-            ),
           ],
         ),
       ),
