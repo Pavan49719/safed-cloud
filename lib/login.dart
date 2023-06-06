@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Dairy Admin',
+                            const Text('Dairy Collector',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,

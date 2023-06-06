@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dairy/admin/admin_dashboard.dart';
 import 'package:dairy/Farmer/farmer_dashboard.dart';
+import 'package:dairy/importer/importer_dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -235,7 +236,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Dairy Admin',
+                  const Text('Dairy Collector',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -288,6 +289,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ],
               ),
             ),
+            Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Importer',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                )),
+                            Radio(
+                              toggleable: true,
+                              value: 3,
+                              groupValue: _value,
+                              onChanged: (value) {
+                                setState(() {
+                                  _value = value;
+                                });
+                              },
+                              fillColor: MaterialStateColor.resolveWith(
+                                  (states) => const Color(0xFF20BCDE)),
+                            ),
+                          ],
+                        ),
             const SizedBox(
               height: 20,
             ),
@@ -300,12 +323,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AdminDashboard()));
-                } else {
+                } else if(_value==2) {
                   await createFarmerUser();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => FarmerDashboard()));
+                } else{
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ImporterDashboard()));
                 }
               },
               child: Center(
